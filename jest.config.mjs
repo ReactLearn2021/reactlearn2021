@@ -85,7 +85,7 @@ export default {
 
   // A map from regular expressions to module names or to arrays of module names that allow to stub out resources with a single module
   moduleNameMapper: {
-    // "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$" : "<rootDir>/tests/unit/__mocks__/fileMock.ts", // спросить про это
+    ".+\\.svg?.+$": "jest-transform-stub",
     "\\.(css|sass|less)$" : "identity-obj-proxy"
   },
 
@@ -158,9 +158,10 @@ export default {
   // ],
 
   // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped
-  // testPathIgnorePatterns: [
-  //   "\\\\node_modules\\\\"
-  // ],
+  testPathIgnorePatterns: [
+    "\\\\node_modules\\\\",
+    "\\\\__mocks__\\\\"
+  ],
 
   // The regexp pattern or array of patterns that Jest uses to detect test files
   // testRegex: [],

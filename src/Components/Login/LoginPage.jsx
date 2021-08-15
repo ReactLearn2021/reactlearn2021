@@ -1,10 +1,10 @@
 import React, { ReactElement } from "react";
-import logo from "../assets/logo-auth-left.svg";
 import LoginRegistrationForm from "./LoginRegistrationForm";
+import logo from "../../assets/logo-auth-left.svg";
 
 export default class LoginPage extends React.Component {
 
-    public render(): ReactElement {
+    render() {
         return (
             <section style = {{ display : "flex", flexFlow : "row nowrap" }}>
                 <div className = "left__logo-image">
