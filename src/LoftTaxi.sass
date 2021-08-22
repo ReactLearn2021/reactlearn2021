@@ -1,0 +1,161 @@
+@font-face
+    font-family: Lora
+    src: url(/assets/fonts/Lora-VariableFont_wght.ttf)
+
+=flexrow
+    display: flex
+    flex-flow: row nowrap
+
+body
+    margin: 0
+    font-family: Lora
+    -webkit-font-smoothing: antialiased
+    -moz-osx-font-smoothing: grayscale
+
+*
+    outline: none
+
+code 
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace
+
+html, body, #root, section
+    height: 100%
+
+main
+    height: 100vh
+    overflow: hidden
+
+h2
+    text-align: center
+
+.left__logo-image
+    height: 100%
+    width: 34%
+    background: #1C1A19
+    display: flex
+    flex-flow: row nowrap
+    align-items: center
+    justify-content: center
+
+    img
+        margin-right: 6%
+        -webkit-user-select: none
+        user-select: none
+
+#loginPage
+    +flexrow
+
+#map, .auth__section
+    background-image: url("/assets/auth-image.jpg")
+
+    nav
+        +flexrow
+        justify-content: space-between
+        background:#1C1A19
+        padding: 15px 20px
+
+        div
+            +flexrow
+            width: 230px
+            align-items: center
+            justify-content: space-between
+            margin-right: 40px
+
+            span
+                color: #FFFFFF
+                cursor: pointer
+
+.auth__section
+    background-size: cover
+    height: 100%
+    width: 66%
+    display: flex
+    align-items: center
+    justify-content: center
+
+.authorize__block
+    background: white
+    padding: 46px 0
+    box-shadow: 0px 0px 40px 6px rgba(0, 0, 0, 0.1)
+    border-radius: 22px
+
+.authorize__block-form
+    padding: 0 102px 0 98px
+    display: flex
+    flex-flow: column nowrap
+    justify-content: center
+
+    h2
+        margin-bottom: 50px
+
+sup
+    color: firebrick
+
+label
+    position: relative
+    bottom: 31px
+    left: 20px
+    transition: transform 200ms ease-out
+    cursor: text
+
+.loft__form-input
+    width: 300px
+    margin-left: 20px
+    height: 35px
+    border: none
+    border-bottom: 1px solid black !important
+    font-size: 16px
+    margin-top: 20px
+
+    &:focus + label
+        transform: translateY(-31px) translateX(-34px) scale(0.8)
+        transition: transform 200ms ease-out
+
+    &:not([value=""]) + label
+         transform: translateY(-31px) translateX(-34px) scale(0.8) !important
+
+.loft__form-button, .loft__form-button-filled
+    font-size: 20px
+    margin-top: 30px
+    padding: 12px 15px
+    border-radius: 40px
+    border: none
+    cursor: pointer
+
+    &+div
+        margin-top: 30px
+        font-size: 17px
+        
+        a
+            color: rgb(253, 191, 90)
+            text-decoration: none
+            cursor: pointer
+        
+
+    &:focus
+        background: #FFA842
+
+.loft__form-button-filled
+    background: #FDBF5A
+    color: black
+
+.loft__form-button
+    background-color: #D8D7D5
+    color: #737373
+
+.loft__form-anchor
+    text-align: center
+    width: 350px
+
+.map-wrapper
+    overflow: hidden
+    width: 100%
+    height: 100%
+
+.map
+    overflow: hidden
+    height: 100%
+    top: 0
+    bottom: 0
+    left: 0
+    right: 0

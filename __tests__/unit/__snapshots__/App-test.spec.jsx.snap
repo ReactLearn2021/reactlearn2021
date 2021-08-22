@@ -1,0 +1,96 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`it renders correctly 1`] = `null`;
+
+exports[`it renders correctly 2`] = `
+<main
+  data-testid="main"
+>
+  <section
+    id="loginPage"
+  >
+    <div
+      className="left__logo-image"
+    >
+      <img
+        alt="Logotip was not loaded"
+        src={
+          Object {
+            "process": [MockFunction],
+          }
+        }
+      />
+    </div>
+    <div
+      className="auth__section"
+    >
+      <div
+        className="authorize__block"
+      >
+        <div
+          className="authorize__block-form"
+        >
+          <h2>
+            Войти
+          </h2>
+          <input
+            className="loft__form-input"
+            id="login"
+            name="login"
+            onChange={[Function]}
+            onFocus={[Function]}
+            type="text"
+            value=""
+          />
+           
+          <label
+            htmlFor="login"
+          >
+            Имя пользователя 
+            <sup>
+              ❉
+            </sup>
+          </label>
+          <input
+            className="loft__form-input"
+            id="password"
+            name="password"
+            onChange={[Function]}
+            onFocus={[Function]}
+            type="password"
+            value=""
+          />
+          <label
+            htmlFor="password"
+          >
+            Пароль 
+            <sup>
+              ❉
+            </sup>
+          </label>
+          <button
+            className="loft__form-button"
+            disabled={true}
+            onClick={[Function]}
+            type="button"
+          >
+            Войти
+          </button>
+          <div
+            className="loft__form-anchor"
+          >
+            <span>
+              Новый пользователь? 
+              <a
+                onClick={[Function]}
+              >
+                Зарегистрироваться
+              </a>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+`;
