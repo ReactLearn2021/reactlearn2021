@@ -4,7 +4,7 @@ export const AuthContext = React.createContext();
 export const AuthProvider = ({ children }) => {
     const [loggedIn, setLoggedIn] = useState(false),
           logIn = (email, password) => {
-                if (email !== process.env.REACT_APP_ACCESS_EMAIL || password !== process.env.REACT_APP_ACCESS_PASSWORD) {
+                if (email !== "actual@mail.ru" || password !== "жальКонечнЧтоТайпскриптаНет((") {
                     return;
                 }
 

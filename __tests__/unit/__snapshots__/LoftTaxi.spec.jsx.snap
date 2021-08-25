@@ -1,8 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`it renders correctly 1`] = `null`;
-
-exports[`it renders correctly 2`] = `
+exports[`it renders correctly 1`] = `
 <main
   data-testid="main"
 >
@@ -14,9 +12,10 @@ exports[`it renders correctly 2`] = `
     >
       <img
         alt="Logotip was not loaded"
+        data-testid="logo"
         src={
           Object {
-            "process": [MockFunction],
+            "process": [Function],
           }
         }
       />
@@ -35,6 +34,7 @@ exports[`it renders correctly 2`] = `
           </h2>
           <input
             className="loft__form-input"
+            data-testid="login"
             id="login"
             name="login"
             onChange={[Function]}
@@ -53,6 +53,7 @@ exports[`it renders correctly 2`] = `
           </label>
           <input
             className="loft__form-input"
+            data-testid="password"
             id="password"
             name="password"
             onChange={[Function]}
@@ -70,6 +71,7 @@ exports[`it renders correctly 2`] = `
           </label>
           <button
             className="loft__form-button"
+            data-testid="login-button"
             disabled={true}
             onClick={[Function]}
             type="button"

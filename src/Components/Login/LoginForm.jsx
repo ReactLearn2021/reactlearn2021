@@ -59,11 +59,11 @@ export default class LoginForm extends React.Component {
         return(
             <div className = "authorize__block-form">
                 <h2>Войти</h2>
-                <input type = "text" name = "login" id = "login" className = "loft__form-input" value = { this.state.login } onChange = { this.handleChangeField } onFocus = { this.resetError }/> {/* this нужен потому что классовый компонент */}
+                <input type = "text" name = "login" id = "login" data-testid = "login" className = "loft__form-input" value = { this.state.login } onChange = { this.handleChangeField } onFocus = { this.resetError }/> {/* this нужен потому что классовый компонент */}
                 <label htmlFor = "login">Имя пользователя <sup>&#10057;</sup></label>
-                <input type = "password" name = "password" id = "password" className = "loft__form-input" value = { this.state.password } onChange = { this.handleChangeField } onFocus = { this.resetError }/> 
+                <input type = "password" name = "password" id = "password" data-testid = "password" className = "loft__form-input" value = { this.state.password } onChange = { this.handleChangeField } onFocus = { this.resetError }/> 
                 <label htmlFor = "password">Пароль <sup>&#10057;</sup></label>
-                <button className = { btnClass } type = "button" disabled = { (btnClass === "loft__form-button") ? true : false } 
+                <button className = { btnClass } type = "button" data-testid = "login-button" disabled = { (btnClass === "loft__form-button") ? true : false } 
                 onClick = { this.loginHandler }>Войти</button>
                 <div className = "loft__form-anchor">
                     { this.props.children }

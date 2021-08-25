@@ -8,7 +8,7 @@ export default class LoginPage extends React.Component {
         return (
             <section id = "loginPage">
                 <div className = "left__logo-image">
-                    <img src = { logo } alt = "Logotip was not loaded" />
+                    <img src = { logo } alt = "Logotip was not loaded" data-testid = "logo"/>
                 </div>
                 <div className = "auth__section">
                     <LoginRegistrationForm/>

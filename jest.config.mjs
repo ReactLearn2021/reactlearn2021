@@ -161,7 +161,8 @@ export default {
   testPathIgnorePatterns: [
     "\\\\node_modules\\\\",
     "\\\\__mocks__\\\\",
-    "setup"
+    "setup",
+    "App-test"
   ],
 
   // The regexp pattern or array of patterns that Jest uses to detect test files

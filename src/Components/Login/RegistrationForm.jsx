@@ -61,13 +61,13 @@ export default class RegistrationForm extends React.Component {
         return(
             <div className = "authorize__block-form">
                 <h2>Регистрация</h2>
-                <input type = "text" name = "email" id = "email" className = "loft__form-input" value = { this.state.email } onChange = { this.handleChangeField } onFocus = { this.resetError }/>
+                <input type = "text" name = "email" id = "email" data-testid = "email" className = "loft__form-input" value = { this.state.email } onChange = { this.handleChangeField } onFocus = { this.resetError }/>
                 <label htmlFor = "email">Адрес электронной почты <sup>&#10057;</sup></label>
-                <input type = "text" name = "initials" id = "initials" className = "loft__form-input" value = { this.state.initials } onChange = { this.handleChangeField } onFocus = { this.resetError }/>
+                <input type = "text" name = "initials" id = "initials" data-testid = "initials" className = "loft__form-input" value = { this.state.initials } onChange = { this.handleChangeField } onFocus = { this.resetError }/>
                 <label htmlFor = "initials">Как вас зовут? <sup>&#10057;</sup></label>
-                <input type = "password" name = "setPassword" id = "setPassword" className = "loft__form-input" value = { this.state.setPassword } onChange = { this.handleChangeField } onFocus = { this.resetError }/>
+                <input type = "password" name = "setPassword" id = "setPassword" data-testid = "setPassword" className = "loft__form-input" value = { this.state.setPassword } onChange = { this.handleChangeField } onFocus = { this.resetError }/>
                 <label htmlFor = "setPassword">Придумайте пароль <sup>&#10057;</sup></label>
-                <button className = { btnClass } type = "button" disabled = { (btnClass === "loft__form-button") ? true : false } 
+                <button className = { btnClass } type = "button" data-testid = "reg-button" disabled = { (btnClass === "loft__form-button") ? true : false } 
                 onClick = { this.regHandler }>Зарегистрироваться</button>
                 <div className = "loft__form-anchor">
                     { this.props.children }

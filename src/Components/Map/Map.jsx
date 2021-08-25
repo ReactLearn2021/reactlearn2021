@@ -22,10 +22,10 @@ export default function Map(props) {
     return(
         <main id = "map">
             <nav>
-                <img src = { logo } alt = "Logotip was not loaded" />
-                <div>
+                <img src = { logo } alt = "Logotip was not loaded" data-testid = "logo"/>
+                <div data-testid = "nav-container">
                     <span onClick = { () => { navigator() } }>Карта</span>
-                    <span onClick = { () => { navigator() } }>Профиль</span>
+                    <span onClick = { () => { navigator() } } data-testid = "profile-link">Профиль</span>
                     <span onClick = { () => { linkHandler('logout') } }>Выйти</span>
                 </div>
             </nav>
