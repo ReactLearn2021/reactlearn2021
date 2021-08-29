@@ -2,8 +2,8 @@ import './LoftTaxi.sass';
 import LoginPage from "./Components/Login/LoginPage";
 import React from "react";
 import { MapWithAuth } from "./Components/Map/Map";
-import { withAuth } from "./Components/AuthContext";
 import propTypes from "prop-types";
+import { connect } from "react-redux";
 
 function App(props) {
   // if (window.localStorage.getItem("view") != "map") {
@@ -26,4 +26,6 @@ App.propTypes = {
     logOut : propTypes.func
 };
 
-export default withAuth(App);
+export default connect(
+    state => ({ loggedIn: state.auth.loggedIn })
+)(App);

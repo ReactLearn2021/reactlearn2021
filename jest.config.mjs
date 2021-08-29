@@ -162,7 +162,9 @@ export default {
     "\\\\node_modules\\\\",
     "\\\\__mocks__\\\\",
     "setup",
-    "App-test"
+    "App-test",
+    "AuthContext",
+    "authMiddleware.spec"
   ],
 
   // The regexp pattern or array of patterns that Jest uses to detect test files

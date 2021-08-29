@@ -1,5 +1,5 @@
 import React from "react";
-import RegistrationForm from "./RegistrationForm";
+import { RegisterFormWithAuth } from "./RegistrationForm";
 import { LoginFormWithAuth } from "./LoginForm";
 
 const Views = {
@@ -33,7 +33,7 @@ export default class LoginRegistrationForm extends React.Component {
                 {
                     {
                         LOGIN : <LoginFormWithAuth {...this.props}><span>Новый пользователь? <a onClick = { () => this.changeCurrentView("Param") }>Зарегистрироваться</a></span></LoginFormWithAuth>,
-                        REG : <RegistrationForm><span>Уже зарегистрированы? <a onClick = { () => this.changeCurrentView("Param") }>Войти</a></span></RegistrationForm>
+                        REG : <RegisterFormWithAuth><span>Уже зарегистрированы? <a onClick = { () => this.changeCurrentView("Param") }>Войти</a></span></RegisterFormWithAuth>
                     }[this.state.currentView]
                 }
             </div>

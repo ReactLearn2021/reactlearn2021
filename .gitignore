@@ -25,3 +25,6 @@ yarn-error.log*
 #info
 inforepo.txt
 info.txt
+
+#screenshots
+shot*.png

@@ -8,5 +8,5 @@ import Profile from "../../src/Components/Map/Profile";
 
 test("it renders correctly", () => {
     const { getByText } = render(<Profile />);
-    expect(getByText("Профиль").tagName).toMatch("I");
+    expect(getByText("Профиль").tagName).toMatch("B");
 });

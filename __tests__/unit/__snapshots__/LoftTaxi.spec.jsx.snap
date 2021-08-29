@@ -2,14 +2,12 @@
 
 exports[`it renders correctly 1`] = `
 <main
-  data-testid="main"
+  data-testid="map-wrapper"
 >
-  <section
-    id="loginPage"
+  <main
+    id="map"
   >
-    <div
-      className="left__logo-image"
-    >
+    <nav>
       <img
         alt="Logotip was not loaded"
         data-testid="logo"
@@ -19,80 +17,31 @@ exports[`it renders correctly 1`] = `
           }
         }
       />
-    </div>
-    <div
-      className="auth__section"
-    >
       <div
-        className="authorize__block"
+        data-testid="nav-container"
       >
-        <div
-          className="authorize__block-form"
+        <a
+          href="/map"
+          onClick={[Function]}
         >
-          <h2>
-            Войти
-          </h2>
-          <input
-            className="loft__form-input"
-            data-testid="login"
-            id="login"
-            name="login"
-            onChange={[Function]}
-            onFocus={[Function]}
-            type="text"
-            value=""
-          />
-           
-          <label
-            htmlFor="login"
-          >
-            Имя пользователя 
-            <sup>
-              ❉
-            </sup>
-          </label>
-          <input
-            className="loft__form-input"
-            data-testid="password"
-            id="password"
-            name="password"
-            onChange={[Function]}
-            onFocus={[Function]}
-            type="password"
-            value=""
-          />
-          <label
-            htmlFor="password"
-          >
-            Пароль 
-            <sup>
-              ❉
-            </sup>
-          </label>
-          <button
-            className="loft__form-button"
-            data-testid="login-button"
-            disabled={true}
-            onClick={[Function]}
-            type="button"
-          >
-            Войти
-          </button>
-          <div
-            className="loft__form-anchor"
-          >
-            <span>
-              Новый пользователь? 
-              <a
-                onClick={[Function]}
-              >
-                Зарегистрироваться
-              </a>
-            </span>
-          </div>
-        </div>
+          Карта
+        </a>
+        <a
+          data-testid="profile-link"
+          href="/profile"
+          onClick={[Function]}
+        >
+          Профиль
+        </a>
+        <button
+          className="loft__form-button-filled"
+          id="logout"
+          onClick={[Function]}
+        >
+          Выйти
+        </button>
       </div>
-    </div>
-  </section>
+    </nav>
+  </main>
 </main>
 `;

@@ -1,7 +1,8 @@
 import React, { ReactElement, ReactNode } from "react";
 import classNames from "classnames";
 import PropTypes from "prop-types";
-import { withAuth } from "../AuthContext";
+import { connect } from "react-redux";
+import { authenticate } from "../../store/actions";
 
 export default class LoginForm extends React.Component {
     constructor(props) {
@@ -13,7 +14,8 @@ export default class LoginForm extends React.Component {
 
     static propTypes = {
         children : PropTypes.node,
-        logIn : PropTypes.func
+        logIn : PropTypes.func,
+        authenticate : PropTypes.func
     }
 
     state = {
@@ -33,14 +35,13 @@ export default class LoginForm extends React.Component {
             login.style.setProperty("border-color", "firebrick");
             return false;
         }
-        console.info(this.state.password.length)
 
         if (this.state.password.length < 8) {
             const password = document.querySelector("#password");
             password.style.setProperty("border-color", "firebrick");
             return false;
         }
-        this.props.logIn(this.state.login, this.state.password);
+        this.props.authenticate(this.state.login, this.state.password);
         // window.localStorage.setItem("view", "map");
         // window.location.reload();
     }
@@ -73,4 +74,7 @@ export default class LoginForm extends React.Component {
     }
 }
 
-export const LoginFormWithAuth = withAuth(LoginForm);
+export const LoginFormWithAuth = connect(
+    (state) => ({ loggedIn : state.auth.loggedIn }),
+    { authenticate }
+)(LoginForm);
