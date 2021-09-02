@@ -43,7 +43,6 @@ export default class LoginForm extends React.Component {
         }
         this.props.authenticate(this.state.login, this.state.password);
         // window.localStorage.setItem("view", "map");
-        // window.location.reload();
     }
 
     

@@ -1,6 +1,7 @@
-import { logIn, AUTHENTICATE, REGISTER } from "../store/actions";
+import { logIn, setCardInfo, AUTHENTICATE, REGISTER, GET_CARD } from "../store/actions";
 import { serverLogin } from "./api";
 import { serverReg } from "./api";
+import { getCardData } from "./api";
 
 export const authMiddleware = (store) => (next) => async (action) => {
     if (action.type === AUTHENTICATE) {
@@ -8,6 +9,8 @@ export const authMiddleware = (store) => (next) => async (action) => {
               success = await serverLogin(email, password);
         if (success) {
             store.dispatch(logIn());
+            window.history.pushState({}, "", "/profile");
+            window.location.reload();
         }
     } else {
         next(action);
@@ -25,4 +28,19 @@ export const registerMiddleware = (store) => (next) => async (action) => {
         next(action);
     }
 }
+
+export const getCardMiddleware = (store) => (next) => async (action) => {
+    if (action.type === GET_CARD) {
+        const success = await getCardData();
+        if (success) {
+            store.dispatch(setCardInfo(success));
+        }
+    } else {
+        next(action);
+    }
+}
+
+
+
+
 

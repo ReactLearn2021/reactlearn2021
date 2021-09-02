@@ -1,12 +1,10 @@
 import React, { useState } from "react";
 import logo from "../../assets/logo-map-navbar.svg";
-import Profile from "./Profile";
-import MapView from "./MapView";
 import { connect } from "react-redux";
 import { logOut } from "../../store/actions";
-import { Link, Switch, Route, useHistory } from "react-router-dom";
-import { PrivateRoute } from "./PrivateRoute";
+import { Link, useHistory } from "react-router-dom";
 import propTypes from "prop-types";
+import RouteCollection from "../Login/PrivateRoutes";
 
 export default function Map(props) {
     const [view, setView] = useState("MAP"),
@@ -36,10 +34,7 @@ export default function Map(props) {
                     <button className = "loft__form-button-filled" id = "logout" onClick = { linkHandler }>Выйти</button>
                 </div>
             </nav>
-            <Switch>
-                <PrivateRoute path = "/map" exact component = { MapView }></PrivateRoute>
-                <PrivateRoute path = "/profile" exact component = { Profile }></PrivateRoute>
-            </Switch>
+            <RouteCollection />
         </main>
     )
 }
@@ -49,6 +44,6 @@ Map.propTypes = {
 };
 
 export const MapWithAuth = connect(
-    null,
+    (state) => ({ loggedIn : state.auth.loggedIn }),
     { logOut }
 )(Map);
