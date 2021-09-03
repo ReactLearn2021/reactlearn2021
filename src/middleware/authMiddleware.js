@@ -1,7 +1,7 @@
 import { logIn, setCardInfo, AUTHENTICATE, REGISTER, GET_CARD } from "../store/actions";
-import { serverLogin } from "./api";
-import { serverReg } from "./api";
-import { getCardData } from "./api";
+import { serverLogin } from "../api";
+import { serverReg } from "../api";
+import { getCardData } from "../api";
 
 export const authMiddleware = (store) => (next) => async (action) => {
     if (action.type === AUTHENTICATE) {

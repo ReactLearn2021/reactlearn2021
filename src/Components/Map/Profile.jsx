@@ -4,7 +4,7 @@ import { MCIcon } from 'loft-taxi-mui-theme';
 import logo from "../../assets/loft-small-icon.svg";
 import classNames from "classnames";
 import logoChip from "../../assets/chip-logo.svg";
-import { setCardData } from "../../middleware/api";
+import { setCardData } from "../../api";
 import { useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 import { getCard } from "../../store/actions";

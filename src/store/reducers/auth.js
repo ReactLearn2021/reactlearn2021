@@ -17,9 +17,9 @@ const initialState = {
 export default function(state = initialState, action) {
     switch(action.type) {
         case LOG_IN:
-            return { loggedIn : true };
+            return { ...state, loggedIn : true };
         case LOG_OUT:
-            return { loggedIn : false };
+            return { ...state, loggedIn : false };
         default:
             return state;
     }

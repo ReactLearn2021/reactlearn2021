@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { logOut } from "../../store/actions";
 import { Link, useHistory } from "react-router-dom";
 import propTypes from "prop-types";
-import RouteCollection from "../Login/PrivateRoutes";
+import PrivateRoutes from "../PrivateRoutes/PrivateRoutes";
 
 export default function Map(props) {
     const [view, setView] = useState("MAP"),
@@ -16,14 +16,6 @@ export default function Map(props) {
         history.push("/");
     }
 
-    // function navigator() {
-    //     if (view === "MAP") {
-    //         setView("PROFILE");
-    //     } else {
-    //         setView("MAP");
-    //     }
-    // }
-
     return(
         <main id = "map">
             <nav>
@@ -34,7 +26,7 @@ export default function Map(props) {
                     <button className = "loft__form-button-filled" id = "logout" onClick = { linkHandler }>Выйти</button>
                 </div>
             </nav>
-            <RouteCollection />
+            <PrivateRoutes />
         </main>
     )
 }

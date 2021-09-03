@@ -12,7 +12,8 @@ export default function(state = initialState, action) {
         case GET_CARD:
             return state;
         case CARD:
-            return { 
+            return {
+                ...state, 
                 initials : action.payload.card.cardName,
                 cardnum : action.payload.card.cardNumber,
                 cardterm : action.payload.card.expiryDate,
