@@ -9,8 +9,6 @@ export const authMiddleware = (store) => (next) => async (action) => {
               success = await serverLogin(email, password);
         if (success) {
             store.dispatch(logIn());
-            window.history.pushState({}, "", "/profile");
-            window.location.reload();
         }
     } else {
         next(action);

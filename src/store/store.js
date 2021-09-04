@@ -1,5 +1,11 @@
 import { createStore, applyMiddleware } from "redux";
 import rootReducer from "./reducers";
-import { authMiddleware, registerMiddleware, getCardMiddleware } from "../middleware/authMiddleware";
+import createSagaMiddleware from "@redux-saga/core";
+import rootSaga from "../sagas/rootSaga";
 
-export const store = createStore(rootReducer, applyMiddleware(authMiddleware, registerMiddleware, getCardMiddleware));
+export const sagaMiddleware = createSagaMiddleware();
+
+// export const store = createStore(rootReducer, applyMiddleware(authMiddleware, rsegisterMiddleware, getCardMiddleware));
+export const store = createStore(rootReducer, applyMiddleware(sagaMiddleware));
+
+sagaMiddleware.run(rootSaga);

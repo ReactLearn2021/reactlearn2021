@@ -2,7 +2,7 @@ import React, { ReactElement } from "react";
 import logo from "../../assets/logo-auth-left.svg";
 import { RegisterFormWithAuth } from "./RegistrationForm";
 import { LoginFormWithAuth } from "./LoginForm";
-
+import { connect } from "react-redux";
 
 const Views = {
     LOGIN : "LOGIN",
@@ -28,6 +28,12 @@ export default class LoginPage extends React.Component {
         }
     }
 
+    componentDidUpdate() {
+        if (this.props.loggedIn) {
+            this.props.history.location("/profile");
+        }
+    }
+
     render() {
         return (
             <section id = "loginPage">
@@ -45,7 +51,12 @@ export default class LoginPage extends React.Component {
                     </div>
                 </div>
             </section>
-        )
+        );
     }
     
 }
+
+export const LoginPageWithAuth = connect(
+    (state) => ({ loggedIn : state.auth.loggedIn }),
+    null
+)(LoginPage);

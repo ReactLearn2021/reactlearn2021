@@ -6,6 +6,11 @@
     display: flex
     flex-flow: row nowrap
 
+=formblock
+    box-shadow: 0px 0px 40px 6px rgba(0, 0, 0, 0.1)
+    border-radius: 22px
+    background: white
+
 body, pre
     margin: 0
     font-family: Lora
@@ -81,10 +86,8 @@ input:focus
     justify-content: center
 
 .authorize__block, #profile__container
-    background: white
+    +formblock
     padding: 46px 0
-    box-shadow: 0px 0px 40px 6px rgba(0, 0, 0, 0.1)
-    border-radius: 22px
 
 .authorize__block-form
     padding: 0 102px 0 98px
@@ -163,11 +166,15 @@ label
     &+.loft__form-button-expanded
         margin-left: 19%
 
+h4+.loft__form-button-expanded
+    margin: 0 0 0 6%
+
 .loft__form-anchor
     text-align: center
     width: 350px
 
 .map-wrapper
+    position: relative
     overflow: hidden
     width: 100%
     height: 100%
@@ -214,8 +221,7 @@ label
 
 #card_container
     padding: 20px 30px
-    box-shadow: 0px 0px 40px 6px rgba(0, 0, 0, 0.1)
-    border-radius: 22px
+    +formblock
     margin-left: 30px
     margin-top: 15px
 
@@ -249,3 +255,14 @@ label
     padding-right: 130px
     margin-left: 24%
     margin-top: 40px
+
+#order
+    +formblock
+    position: absolute
+    padding: 20px 30px
+    top: 25px
+    left: 25px
+    min-width: 500px
+
+.form-select
+    margin-bottom: 25px

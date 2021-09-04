@@ -28,7 +28,7 @@ export default function Map(props) {
             </nav>
             <PrivateRoutes />
         </main>
-    )
+    );
 }
 
 Map.propTypes = {

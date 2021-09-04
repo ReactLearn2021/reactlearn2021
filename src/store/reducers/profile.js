@@ -4,7 +4,8 @@ const initialState = {
     initials : "",
     cardnum : "",
     cardterm : "",
-    cvc : ""
+    cvc : "",
+    full : true
 };
 
 export default function(state = initialState, action) {
@@ -17,7 +18,8 @@ export default function(state = initialState, action) {
                 initials : action.payload.card.cardName,
                 cardnum : action.payload.card.cardNumber,
                 cardterm : action.payload.card.expiryDate,
-                cvc : action.payload.card.cvc
+                cvc : action.payload.card.cvc,
+                full : action.payload.fullData
             };
         default:
             return state;

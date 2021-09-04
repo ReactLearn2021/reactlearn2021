@@ -8,26 +8,23 @@ const loftTaxiGlitch = axios.create({
 export const serverLogin = async (email, password) => {
     const userData = { email, password };
 
-    return await loftTaxiGlitch.post("/auth", userData)
-        .then( (response) => {
-            window.localStorage.setItem("TOKEN", response.data.token);
-            return response.data.success;
-        });
+    return await loftTaxiGlitch.post("/auth", userData);
 }
 
 export const serverReg = async (email, initials, password) => {
     const initialsArray = initials.split(" "),
           userRegData = { email, password, name : initialsArray[1], surname : initialsArray[0] };
-    return await loftTaxiGlitch.post("/register", userRegData)
-        .then( (response) => {
-            window.localStorage.setItem("TOKEN", response.data.token);
-            return response.data.success;
-        });
+    return await loftTaxiGlitch.post("/register", userRegData);
 }
 
 export const getCardData = async () => {
     const token = window.localStorage.getItem("TOKEN");
     return await loftTaxiGlitch.get(`/card?token=${token}`, { responseType : "json" })
+        .then( response => response.data );
+}
+
+export const getAddressListData = async () => {
+    return await loftTaxiGlitch.get("/addressList", { responseType : "json" })
         .then( response => response.data );
 }
 

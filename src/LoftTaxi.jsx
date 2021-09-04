@@ -1,5 +1,5 @@
 import './LoftTaxi.sass';
-import LoginPage from "./Components/Login/LoginPage";
+import { LoginPageWithAuth } from "./Components/Login/LoginPage";
 import React from "react";
 import { MapWithAuth } from "./Components/Map/Map";
 import propTypes from "prop-types";
@@ -12,16 +12,15 @@ function App(props) {
         return (
           <>
               <main data-testid = "main">
-                  <LoginPage/>
+                  <LoginPageWithAuth />
               </main>
               <PrivateRoutes />
           </>
         );
     } else {
-      return <><main data-testid = "map-wrapper">
+      return <main data-testid = "map-wrapper">
                   <MapWithAuth {...props} />
-             </main>
-             <PrivateRoutes /></>
+             </main>;
     }
 }
 

@@ -76,7 +76,7 @@ export default class RegistrationForm extends React.Component {
                     { this.props.children }
                 </div>
             </div>
-        )
+        );
     }
 }
 
