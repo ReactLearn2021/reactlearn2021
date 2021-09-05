@@ -1,8 +1,8 @@
 import React, { ReactElement, ReactNode } from "react";
 import classNames from "classnames";
-import PropTypes from "prop-types";
+import propTypes from "prop-types";
 import { connect } from "react-redux";
-import { register } from "../../store/actions";
+import { REGISTER } from "../../store/actions";
 
 export default class RegistrationForm extends React.Component {
     constructor(props) {
@@ -13,8 +13,9 @@ export default class RegistrationForm extends React.Component {
     }
 
     static propTypes = {
-        children : PropTypes.node,
-        register : PropTypes.func
+        children : propTypes.node,
+        register : propTypes.func,
+        loggedIn : propTypes.bool
     }
 
     state = {
@@ -82,5 +83,5 @@ export default class RegistrationForm extends React.Component {
 
 export const RegisterFormWithAuth = connect(
     (state) => ({ loggedIn : state.auth.loggedIn }),
-    { register }
+    { register : REGISTER }
 )(RegistrationForm);

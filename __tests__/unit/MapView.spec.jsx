@@ -5,6 +5,7 @@
 import React from "react";
 import { render } from "@testing-library/react";
 import MapView from "../../src/Components/Map/MapView";
+import { Provider } from "react-redux";
 
 jest.mock('mapbox-gl/dist/mapbox-gl', () => ({
     Map: jest.fn(() => ({
@@ -13,7 +14,7 @@ jest.mock('mapbox-gl/dist/mapbox-gl', () => ({
 }));
 
 test("Map container renders correctly", () => {
-    const { getByTestId } = render(<MapView />),
+    const { getByTestId } = render(<Provider store = { globalThis.mockStore }><MapView /></Provider>),
           map = getByTestId("map");
     expect(map).toBeInstanceOf(HTMLElement);
     expect(map.classList.contains("map")).toBeTruthy();

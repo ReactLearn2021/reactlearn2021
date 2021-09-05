@@ -164,7 +164,8 @@ export default {
     "setup",
     "App-test",
     "AuthContext",
-    "authMiddleware.spec"
+    "authMiddleware.spec",
+    "recordSaga"
   ],
 
   // The regexp pattern or array of patterns that Jest uses to detect test files

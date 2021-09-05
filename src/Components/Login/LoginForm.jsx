@@ -2,13 +2,13 @@ import React, { ReactElement, ReactNode } from "react";
 import classNames from "classnames";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { authenticate } from "../../store/actions";
+import { AUTHENTICATE, REGISTER } from "../../store/actions";
 
 export default class LoginForm extends React.Component {
     constructor(props) {
         super(props);
         this.handleChangeField = this.handleChangeField.bind(this);
-        // this.loginHandler = this.loginHandler.bind(this);
+        this.loginHandler = this.loginHandler.bind(this);
         this.resetError = this.resetError.bind(this);
     }
 
@@ -64,7 +64,7 @@ export default class LoginForm extends React.Component {
                 <input type = "password" name = "password" id = "password" data-testid = "password" className = "loft__form-input" value = { this.state.password } onChange = { this.handleChangeField } onFocus = { this.resetError }/> 
                 <label htmlFor = "password">Пароль <sup>&#10057;</sup></label>
                 <button className = { btnClass } type = "button" data-testid = "login-button" disabled = { (btnClass === "loft__form-button") ? true : false } 
-                onClick = { () => this.loginHandler() }>Войти</button>
+                onClick = { this.loginHandler }>Войти</button>
                 <div className = "loft__form-anchor">
                     { this.props.children }
                 </div>
@@ -75,5 +75,5 @@ export default class LoginForm extends React.Component {
 
 export const LoginFormWithAuth = connect(
     (state) => ({ loggedIn : state.auth.loggedIn }),
-    { authenticate }
+    { authenticate : AUTHENTICATE }
 )(LoginForm);

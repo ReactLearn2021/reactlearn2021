@@ -2,12 +2,13 @@ import React, { useState, useEffect } from "react";
 import InputMask from 'react-input-mask';
 import { MCIcon } from 'loft-taxi-mui-theme';
 import logo from "../../assets/loft-small-icon.svg";
-import classNames from "classnames";
 import logoChip from "../../assets/chip-logo.svg";
 import { setCardData } from "../../api";
 import { useHistory } from "react-router-dom";
 import { connect } from "react-redux";
-import { getCard } from "../../store/actions";
+import { GET_CARD } from "../../store/actions";
+import classNames from "classnames";
+import propTypes from "prop-types";
 
 const Profile = (props) => {
     const [initials, setInitialsValue] = useState(""),
@@ -65,7 +66,7 @@ const Profile = (props) => {
     }
 
     useEffect(async () => {
-        props.getCard();
+        await props.getCard();
         setInitialsValue(props.initials);
         setCardnumValue(props.cardnum);
         setCardtermValue(props.cardterm);
@@ -133,6 +134,14 @@ const Profile = (props) => {
     );
 }
 
+Profile.propTypes = {
+    getCard : propTypes.func,
+    initials : propTypes.string,
+    cardnum : propTypes.string,
+    cardterm : propTypes.string,
+    cvc : propTypes.string
+};
+
 export const ProfileWithAuth = connect(
     (state) => ({
         initials: state.profile.initials,
@@ -140,6 +149,6 @@ export const ProfileWithAuth = connect(
         cardterm: state.profile.cardterm,
         cvc: state.profile.cvc
     }),
-    { getCard }
+    { getCard : GET_CARD }
 )(Profile);
 export default Profile;

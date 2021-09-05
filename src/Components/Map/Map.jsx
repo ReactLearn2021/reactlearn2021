@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import logo from "../../assets/logo-map-navbar.svg";
 import { connect } from "react-redux";
-import { logOut } from "../../store/actions";
+import { LOG_OUT } from "../../store/actions";
 import { Link, useHistory } from "react-router-dom";
 import propTypes from "prop-types";
 import PrivateRoutes from "../PrivateRoutes/PrivateRoutes";
@@ -13,8 +13,14 @@ export default function Map(props) {
     function linkHandler() {
         window.localStorage.removeItem("TOKEN"); // спросить как запустить редирект 
         props.logOut();
-        history.push("/");
+        history.push("/login");
     }
+
+    useEffect(() =>{
+        if (window.location.pathname !== "/profile") {
+            history.push("/map");
+        }
+    }, []);
 
     return(
         <main id = "map">
@@ -32,10 +38,12 @@ export default function Map(props) {
 }
 
 Map.propTypes = {
-    logOut : propTypes.func
+    logOut : propTypes.func,
+    loggedIn : propTypes.bool,
+    addressList : propTypes.arrayOf(propTypes.string)
 };
 
 export const MapWithAuth = connect(
-    (state) => ({ loggedIn : state.auth.loggedIn }),
-    { logOut }
+    (state) => ({ loggedIn : state.auth.loggedIn, addressList : state.addresses.addressList }),
+    { logOut : LOG_OUT }
 )(Map);

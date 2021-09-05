@@ -1,5 +1,3 @@
-import { LOG_IN, LOG_OUT } from "../actions";
-
 // import { handleAction } from "redux-actions";
 // import { combineReducers } from "redux";
 
@@ -16,9 +14,9 @@ const initialState = {
 
 export default function(state = initialState, action) {
     switch(action.type) {
-        case LOG_IN:
+        case "LOG_IN":
             return { ...state, loggedIn : true };
-        case LOG_OUT:
+        case "LOG_OUT":
             return { ...state, loggedIn : false };
         default:
             return state;

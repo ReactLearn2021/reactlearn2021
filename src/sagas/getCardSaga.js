@@ -1,19 +1,20 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import { setCardInfo, getCard } from "../store/actions";
+import { CARD } from "../store/actions";
 import { getCardData } from "../api";
 
 export function* getCardSaga() {
-    const success = yield call(getCardData);
+    const success = yield call(getCardData),
+          { cardName, cardNumber, expiryDate, cvc } = success.data;
     if (success) {
         let fullData = { fullData : false };
-        if (success.card.cardName !== "" && success.card.cardNumber !== ""
-        && success.card.expiryDate !== "" && success.card.cvc !== "") {
+        const card = { cardName, cardNumber, expiryDate, cvc };
+        if (cardName !== "" && cardNumber !== "" && expiryDate !== "" && cvc !== "") {
             fullData.fullData = true;
         }
-        yield put(setCardInfo(success, fullData));
+        yield put(CARD(card, fullData));
     }
 }
 
 export function* cardSaga() {
-    yield takeEvery(getCard, getCardSaga);
+    yield takeEvery("GET_CARD", getCardSaga);
 }

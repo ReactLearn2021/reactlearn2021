@@ -1,38 +1,94 @@
 import React, { useState, useEffect } from "react";
 import mapboxgl from "mapbox-gl";
 import { connect } from "react-redux";
-import { getAddressList } from "../../store/actions";
 import { useHistory } from "react-router-dom";
-import Select from 'react-select'
+import Select from 'react-select';
+import classNames from "classnames";
+import { GET_ADDRESS_LIST_REQUEST, GET_ROUTE_REQUEST } from "../../store/actions";
+import propTypes from "prop-types";
 
 const MapView = (props) => {
     const mapContainer = React.createRef(),
-          [fromList, setFromList] = useState([{ value : "Улица Пушкина", label : "Улица Пушкина" }]),
-          [toList, setToList] = useState([{ value : "Бульвар Рокоссовского", label : "Бульвар Рокоссовского" }]),
+          [fromList, setFromList] = useState(props.addressList.map( (item) => ({ value : item, label : item }) )),
+          [toList, setToList] = useState(props.addressList.map( (item) => ({ value : item, label : item }) )),
           [from, setFrom] = useState(""),
           [to, setTo] = useState(""),
+          [map, setMap] = useState(null),
           history = useHistory();
-    let map = null;
+    // let map = null;
 
     useEffect(() => {
         mapboxgl.accessToken = process.env.REACT_APP_ACCESS_TOKEN;
-        map = new mapboxgl.Map({
+        setMap(new mapboxgl.Map({
             container : mapContainer.current,
             style : "mapbox://styles/mapbox/streets-v10",
             center : [30.3056504, 59.9429126],
             zoom : 10
-        });
-        props.getAddressList();
+        }));
         return function unmount() {
-            map.remove();
+            if (map) {
+                map.remove();
+            }
         }
     }, []);
+
+    useEffect( async () => {
+        if (props.addressList.length === 0) {
+            await props.getAddressList();
+        } else {
+            setFromList(props.addressList.map( (item) => ({ value : item, label : item }) ));
+            setToList(props.addressList.map( (item) => ({ value : item, label : item }) ));
+        }
+    }, [props.addressList]);
+
+    useEffect( () => {
+        if (props.coordinates) {
+
+            map && map.flyTo({ 
+                center: props.coordinates[0],
+                zoom: 15
+            });
+
+
+            if (map && map.getLayer("map-wrapper")) {
+                map.removeLayer("map-wrapper");
+                map.removeSource("map-wrapper");
+            }
+    
+            map && map.addLayer({
+                id: "map-wrapper",
+                type: "line",
+                source: {
+                  type: "geojson",
+                  data: {
+                    type: "Feature",
+                    properties: {},
+                    geometry: {
+                      type: "LineString",
+                      coordinates : props.coordinates
+                    }
+                  }
+                },
+                layout: {
+                  "line-join": "round",
+                  "line-cap": "round"
+                },
+                paint: {
+                  "line-color": "#0000CD",
+                  "line-width": 8
+                }
+            });
+        }
+    }, [props.coordinates]);
 
     function changeFrom(event) {
         if (!event) {
             setFrom("");
             return;
         }
+        const filteredList = props.addressList.map((item) => ({ value : item, label : item })).filter((item) => item.value !== event.value);
+        setToList(filteredList);
+        setFrom({ value : event.value, label : event.value });
     }
 
     function changeTo(event) {
@@ -40,7 +96,19 @@ const MapView = (props) => {
             setTo("");
             return;
         }
+        const filteredList = props.addressList.map((item) => ({ value : item, label : item })).filter((item) => item.value !== event.value);
+        setFromList(filteredList);
+        setTo({ value : event.value, label : event.value });
     }
+
+    async function makeOrder() {
+        await props.getRoute(from.value, to.value);
+    }
+
+    const btnClass = classNames({
+        "loft__form-button loft__form-button-expanded": !from || !to || (from.value && from.value.length === 0) || (to.value && to.value.length) === 0,
+        "loft__form-button-filled loft__form-button-expanded": (from && from.value.length > 0) && (to.value && to.value.length) > 0
+    });
 
     return(
         <div className = "map-wrapper">
@@ -50,16 +118,24 @@ const MapView = (props) => {
                     <h4>Пожалуйста, перейдите в профиль и заполните платежные данные.</h4>
                     <button className="loft__form-button-filled loft__form-button-expanded" type="button" onClick={() => { history.push("/profile"); }}>Перейти в профиль</button>
                 </> : <>
-                    <Select options = { fromList } isClearable = { true } className = "form-select" placeholder = "Откуда" inputValue = { from } onChange = { changeFrom }/>
-                    <Select options = { toList } isClearable = { true } className = "form-select" placeholder = "Куда" inputValue = { to } onChange = { changeTo }/>
-                    { to }
+                    <Select options = { fromList } isClearable = { true } className = "form-select" placeholder = "Откуда" onChange = { changeFrom }/>
+                    <Select options = { toList } isClearable = { true } className = "form-select" placeholder = "Куда"  onChange = { changeTo }/>
+                    <button className = { btnClass } type="button" onClick={ makeOrder }>Вызвать такси</button>
                 </>}
             </div>
         </div>
     );
 }
 
+MapView.propTypes = {
+    getAddressList : propTypes.func,
+    getRoute : propTypes.func,
+    addressList : propTypes.arrayOf(propTypes.string),
+    full : propTypes.bool,
+    coordinates : propTypes.arrayOf(propTypes.arrayOf(propTypes.number))
+};
+
 export default connect(
-    (state) => ({ addressList : state.addresses.addressList, full : state.profile.full }),
-    { getAddressList }
+    (state) => ({ addressList : state.addresses.addressList, full : state.profile.full, coordinates : state.addresses.coordinates }),
+    { getAddressList : GET_ADDRESS_LIST_REQUEST, getRoute : GET_ROUTE_REQUEST }
 )(MapView);

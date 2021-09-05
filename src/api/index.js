@@ -9,24 +9,22 @@ export const serverLogin = async (email, password) => {
     const userData = { email, password };
 
     return await loftTaxiGlitch.post("/auth", userData);
-}
+};
 
 export const serverReg = async (email, initials, password) => {
     const initialsArray = initials.split(" "),
           userRegData = { email, password, name : initialsArray[1], surname : initialsArray[0] };
     return await loftTaxiGlitch.post("/register", userRegData);
-}
+};
 
 export const getCardData = async () => {
     const token = window.localStorage.getItem("TOKEN");
-    return await loftTaxiGlitch.get(`/card?token=${token}`, { responseType : "json" })
-        .then( response => response.data );
-}
+    return await loftTaxiGlitch.get(`/card?token=${token}`, { responseType : "json" });
+};
 
 export const getAddressListData = async () => {
-    return await loftTaxiGlitch.get("/addressList", { responseType : "json" })
-        .then( response => response.data );
-}
+    return await loftTaxiGlitch.get("/addressList", { responseType : "json" });
+};
 
 export const setCardData = async (payload) => {
     const token = window.localStorage.getItem("TOKEN"),
@@ -37,6 +35,10 @@ export const setCardData = async (payload) => {
               cardName : payload.cardName,
               cvc : payload.cvc
           };
-    return await loftTaxiGlitch.post("/card", data)
-        .then(response => response.data.success);
-}
+    return await loftTaxiGlitch.post("/card", data);
+};
+
+export const getRouteData = async (payload) => {
+    const { from, to } = payload;
+    return await loftTaxiGlitch.get(`/route?address1=${encodeURIComponent(from)}&address2=${encodeURIComponent(to)}`);
+};
