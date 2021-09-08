@@ -79,7 +79,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-push": "set CI=true && npm run test"
+      "pre-push": "set CI=true&&npm run test"
     }
   }
 }
