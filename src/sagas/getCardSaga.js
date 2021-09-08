@@ -6,12 +6,13 @@ export function* getCardSaga() {
     const success = yield call(getCardData),
           { cardName, cardNumber, expiryDate, cvc } = success.data;
     if (success) {
-        let fullData = { fullData : false };
-        const card = { cardName, cardNumber, expiryDate, cvc };
-        if (cardName !== "" && cardNumber !== "" && expiryDate !== "" && cvc !== "") {
-            fullData.fullData = true;
+        let fullData = false;
+        if ((cardName && cardNumber && expiryDate && cvc) &&
+            (cardName !== "" && cardNumber !== "" && expiryDate !== "" && cvc !== "")) {
+            fullData = true;
         }
-        yield put(CARD(card, fullData));
+        const card = { cardName, cardNumber, expiryDate, cvc, fullData };
+        yield put(CARD(card));
     }
 }
 

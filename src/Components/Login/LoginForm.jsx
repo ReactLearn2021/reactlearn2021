@@ -74,6 +74,6 @@ export default class LoginForm extends React.Component {
 }
 
 export const LoginFormWithAuth = connect(
-    (state) => ({ loggedIn : state.auth.loggedIn }),
+    null,
     { authenticate : AUTHENTICATE }
 )(LoginForm);

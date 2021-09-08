@@ -14,8 +14,7 @@ export default class RegistrationForm extends React.Component {
 
     static propTypes = {
         children : propTypes.node,
-        register : propTypes.func,
-        loggedIn : propTypes.bool
+        register : propTypes.func
     }
 
     state = {
@@ -82,6 +81,6 @@ export default class RegistrationForm extends React.Component {
 }
 
 export const RegisterFormWithAuth = connect(
-    (state) => ({ loggedIn : state.auth.loggedIn }),
+    null,
     { register : REGISTER }
 )(RegistrationForm);

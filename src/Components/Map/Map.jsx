@@ -38,12 +38,10 @@ export default function Map(props) {
 }
 
 Map.propTypes = {
-    logOut : propTypes.func,
-    loggedIn : propTypes.bool,
-    addressList : propTypes.arrayOf(propTypes.string)
+    logOut : propTypes.func
 };
 
 export const MapWithAuth = connect(
-    (state) => ({ loggedIn : state.auth.loggedIn, addressList : state.addresses.addressList }),
+    null,
     { logOut : LOG_OUT }
 )(Map);

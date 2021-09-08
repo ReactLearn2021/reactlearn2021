@@ -6,11 +6,12 @@ import Select from 'react-select';
 import classNames from "classnames";
 import { GET_ADDRESS_LIST_REQUEST, GET_ROUTE_REQUEST } from "../../store/actions";
 import propTypes from "prop-types";
+import { GET_CARD } from "../../store/actions";
 
-const MapView = (props) => {
+const MapView = ({ getAddressList, getRoute, getCard, addressList, full, coordinates }) => {
     const mapContainer = React.createRef(),
-          [fromList, setFromList] = useState(props.addressList.map( (item) => ({ value : item, label : item }) )),
-          [toList, setToList] = useState(props.addressList.map( (item) => ({ value : item, label : item }) )),
+          [fromList, setFromList] = useState(addressList.map( (item) => ({ value : item, label : item }) )),
+          [toList, setToList] = useState(addressList.map( (item) => ({ value : item, label : item }) )),
           [from, setFrom] = useState(""),
           [to, setTo] = useState(""),
           [map, setMap] = useState(null),
@@ -32,20 +33,24 @@ const MapView = (props) => {
         }
     }, []);
 
-    useEffect( async () => {
-        if (props.addressList.length === 0) {
-            await props.getAddressList();
+    useEffect( () => {
+        if (addressList.length === 0) {
+            getAddressList();
         } else {
-            setFromList(props.addressList.map( (item) => ({ value : item, label : item }) ));
-            setToList(props.addressList.map( (item) => ({ value : item, label : item }) ));
+            setFromList(addressList.map( (item) => ({ value : item, label : item }) ));
+            setToList(addressList.map( (item) => ({ value : item, label : item }) ));
         }
-    }, [props.addressList]);
+    }, [addressList]);
 
     useEffect( () => {
-        if (props.coordinates) {
+        getCard();
+    }, []);
+
+    useEffect( () => {
+        if (coordinates) {
 
             map && map.flyTo({ 
-                center: props.coordinates[0],
+                center: coordinates[0],
                 zoom: 15
             });
 
@@ -65,7 +70,7 @@ const MapView = (props) => {
                     properties: {},
                     geometry: {
                       type: "LineString",
-                      coordinates : props.coordinates
+                      coordinates : coordinates
                     }
                   }
                 },
@@ -79,14 +84,14 @@ const MapView = (props) => {
                 }
             });
         }
-    }, [props.coordinates]);
+    }, [coordinates]);
 
     function changeFrom(event) {
         if (!event) {
             setFrom("");
             return;
         }
-        const filteredList = props.addressList.map((item) => ({ value : item, label : item })).filter((item) => item.value !== event.value);
+        const filteredList = addressList.map((item) => ({ value : item, label : item })).filter((item) => item.value !== event.value);
         setToList(filteredList);
         setFrom({ value : event.value, label : event.value });
     }
@@ -96,13 +101,13 @@ const MapView = (props) => {
             setTo("");
             return;
         }
-        const filteredList = props.addressList.map((item) => ({ value : item, label : item })).filter((item) => item.value !== event.value);
+        const filteredList = addressList.map((item) => ({ value : item, label : item })).filter((item) => item.value !== event.value);
         setFromList(filteredList);
         setTo({ value : event.value, label : event.value });
     }
 
-    async function makeOrder() {
-        await props.getRoute(from.value, to.value);
+    function makeOrder() {
+        getRoute(from.value, to.value);
     }
 
     const btnClass = classNames({
@@ -114,7 +119,7 @@ const MapView = (props) => {
         <div className = "map-wrapper">
             <div data-testid = "map" className = "map" ref = { mapContainer } />
             <div id = "order">
-                { (props.full === false ) ? <>
+                { (full === false ) ? <>
                     <h4>Пожалуйста, перейдите в профиль и заполните платежные данные.</h4>
                     <button className="loft__form-button-filled loft__form-button-expanded" type="button" onClick={() => { history.push("/profile"); }}>Перейти в профиль</button>
                 </> : <>
@@ -137,5 +142,5 @@ MapView.propTypes = {
 
 export default connect(
     (state) => ({ addressList : state.addresses.addressList, full : state.profile.full, coordinates : state.addresses.coordinates }),
-    { getAddressList : GET_ADDRESS_LIST_REQUEST, getRoute : GET_ROUTE_REQUEST }
+    { getAddressList : GET_ADDRESS_LIST_REQUEST, getRoute : GET_ROUTE_REQUEST, getCard : GET_CARD }
 )(MapView);
