@@ -79,7 +79,8 @@
   },
   "husky": {
     "hooks": {
-      "pre-push": "set CI=true && npm run test"
+      "pre-push": "echo 'husky runs'",
+      "pre-commit": "echo 'husky pre-commit'"
     }
   }
 }
