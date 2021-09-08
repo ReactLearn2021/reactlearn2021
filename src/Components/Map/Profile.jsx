@@ -67,7 +67,9 @@ const Profile = ({getCard, initials, cardnum, cardterm, cvc}) => {
     }
 
     useEffect( () => {
-        getCard();
+        if (getCard) {
+            getCard();
+        }
         setInitialsValue(initials);
         setCardnumValue(cardnum);
         setCardtermValue(cardterm);
