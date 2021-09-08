@@ -32,7 +32,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "jest",
+    "test": "jest -o",
     "eject": "react-scripts eject",
     "commit": "cz"
   },
@@ -79,7 +79,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "CI=true jest -o"
+      "pre-commit": "CI=true npm run test"
     }
   }
 }
