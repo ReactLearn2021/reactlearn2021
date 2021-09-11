@@ -1,8 +1,13 @@
 language: node.js
 node_js:
-  - "stable"
+- stable
 cache:
   directories:
-    - node_modules # save node_modules between builds for not to reinstall
+  - node_modules
 script:
-  - npm run test
+- npm run test
+deploy:
+  provider: heroku
+  api_key:
+    secure: ajFXNs2aR4r8nO+DEHt8n9x1JzfL6jv8eyAZSzHm/8zC1QG4aurLDtZHdX1YLwbaGKsa4uOBtddnLyllE/jA1tvEZwfaxaQ+411RUhsabizjg2KJ8ipnwVlVl/PGBuP+B2T/FKhehTek4z5C17CqocGcThXsw5dclG9GDzTYKA9Vhpv4swBabkSWSGyldBIRnyYH+NO9U7HkvDqMBzbvYmLETIU/VrOQ2aWhSRfmszzBYdVa7R9krb0Mh90R8PTDTVe88IxPbQmIDN2eWBeuXcSqkpyh6sjcDZ/wVaxDKnZytN3t21yK3k1qhliUfyxOT38ztbJppBNk/qy2knTPCC+xG/UOLOyJiE1EmBM2inmsRVUzXykCXOxAZ62vxgeV+trDiLYCMhaX4oL1Jb68BxZkhSWfXl474aQ+yS06eKj9T9XQZvcnTw9IeAW5fI5kujulr7smm7ynH5HDi0kMKVSavesLJli7kyqMf1gSjDIgzisPTU47SFEay9Kh09nnzA7QlnBsqwSJrvQ64KtBsljx401q4i4b+IvylZBGW9+N/fAeDXFPQcA5TbORKRnDLs1hosLyaJ7jSYa9ffIRB74MF0hCWMVZrqIjZAXkgz5EuQiuslnxlT23u3bq4BKhfS1I7OQugZ6zUWv8PR8jPjuTdgv+c+VuEMhMmUh9bXg=
+  app: pure-caverns-21897
