@@ -42,9 +42,7 @@ export default class LoginPage extends React.Component {
                     <img src = { logo } alt = "Logotip was not loaded" data-testid = "logo"/>
                 </div>
                 <div className = "auth__section">
-                    <div className = "authorize__block">
-                        <PrivateRoutes />
-                    </div>
+                    <PrivateRoutes />
                 </div>
             </section>
         );

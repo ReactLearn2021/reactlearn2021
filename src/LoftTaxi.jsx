@@ -14,7 +14,6 @@ function App(props) {
               <main data-testid = "main">
                   <LoginPageWithAuth />
               </main>
-              <PrivateRoutes />
           </>
         );
     } else {
