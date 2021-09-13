@@ -4,7 +4,6 @@ import React from "react";
 import { MapWithAuth } from "./Components/Map/Map";
 import propTypes from "prop-types";
 import { connect } from "react-redux";
-import PrivateRoutes from "./Components/PrivateRoutes/PrivateRoutes";
 
 function App(props) {
   // if (window.localStorage.getItem("view") != "map") {
@@ -14,7 +13,6 @@ function App(props) {
               <main data-testid = "main">
                   <LoginPageWithAuth />
               </main>
-              <PrivateRoutes />
           </>
         );
     } else {

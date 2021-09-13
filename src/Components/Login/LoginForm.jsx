@@ -8,7 +8,7 @@ import { Formik, ErrorMessage, Form } from "formik";
 export default class LoginForm extends React.Component {
     constructor(props) {
         super(props);
-        this.handleChangeField = this.handleChangeField.bind(this);
+        // this.handleChangeField = this.handleChangeField.bind(this);
         this.loginHandler = this.loginHandler.bind(this);
     }
 
@@ -26,41 +26,27 @@ export default class LoginForm extends React.Component {
         emailCheck : /^([\w\d-\.\?]+)@[A-Z]{4,6}\.[A-Z]{2,4}$/i
     };
 
-    handleChangeField(event) {
-        this.setState({ loginFields : { [event.target.name]: event.target.value }});
-    }
+    // handleChangeField(event) {
+    //     this.setState({ loginFields : { [event.target.name]: event.target.value }});
+    // }
 
-    loginHandler() {
+    loginHandler(values) {
+        console.info(values)
         window.event.preventDefault();
-        if (!this.state.emailCheck.test(this.state.loginFields.login)) {
-            const login = document.querySelector("#login");
-            login.style.setProperty("border-color", "firebrick");
-            return false;
-        }
+        if (!this.state.emailCheck.test(values.login)) return false;
 
-        if (this.state.loginFields.password.length < 8) {
-            const password = document.querySelector("#password");
-            password.style.setProperty("border-color", "firebrick");
-            return false;
-        }
-        this.props.authenticate(this.state.loginFields.login, this.state.loginFields.password);
+        if (values.password.length < 8) return false;
+        
+        this.props.authenticate(values.login, values.password);
         // window.localStorage.setItem("view", "map");
     }
 
     render() {
-        const btnClass = classNames({
-            "loft__form-button" : !this.state.emailCheck.test(this.state.loginFields.login) || (this.state.loginFields.password && this.state.loginFields.password.length < 8),
-            "loft__form-button-filled" : this.state.emailCheck.test(this.state.loginFields.login) && this.state.loginFields.password && this.state.loginFields.password.length >= 8
-        });
         return(
-            <Formik onSubmit = { this.loginHandler }
+            <Formik onSubmit = { (values) => { return this.loginHandler(values) } }
             initialValues = { { login : "", password : "" } }
             validate = { (values) => {
-                console.info(values)
-                const errors = {
-                    login : "",
-                    password : ""
-                };
+                const errors = {};
                 if (!this.state.emailCheck.test(values.login)) {
                     errors.login = "Введен некоректный email";
                 }
@@ -71,9 +57,13 @@ export default class LoginForm extends React.Component {
 
                 return errors;
             } }
-            >{ ({ handleSubmit, touched, errors }) => {
+            >{ ({ handleChange, handleBlur, values }) => {
+                const btnClass = classNames({
+                    "loft__form-button" : !this.state.emailCheck.test(values.login) || (values.password.length < 8),
+                    "loft__form-button-filled" : this.state.emailCheck.test(values.login) && values.password.length >= 8
+                });
                 return(
-                    <Form className = "authorize__block-form" onSubmit = { handleSubmit }>
+                    <Form className = "authorize__block-form">
                         <h2>Войти</h2>
                         <input type = "email" 
                         name = "login" 
@@ -81,26 +71,28 @@ export default class LoginForm extends React.Component {
                         className = "loft__form-input" 
                         data-testid = "login"
                         autoComplete = "off"
-                        value = { this.state.loginFields.login } 
-                        onChange = { this.handleChangeField } />
+                        onBlur = { handleBlur }
+                        onChange = { handleChange }
+                        value = { values.login }/>
                         <label htmlFor = "login">Имя пользователя <sup>&#10057;</sup></label>
-                        <ErrorMessage name = "login" component = "div" />
+                        <ErrorMessage name = "login" component = "p" className = "error-message" />
                         <input type = "password" 
                         name = "password"
                         id = "password" 
                         className = "loft__form-input"
                         data-testid = "password"
-                        autoComplete = "off"
-                        value = { this.state.loginFields.password } 
-                        onChange = { this.handleChangeField }/>
+                        autoComplete = "off" 
+                        onBlur = { handleBlur }
+                        onChange = { handleChange }
+                        value = { values.password }/>
                         <label htmlFor = "password">Пароль <sup>&#10057;</sup></label>
-                        <ErrorMessage name = "password" component = "div" />
+                        <ErrorMessage name = "password" component = "p" className = "error-message" />
                         <button className = { btnClass } type = "submit" data-testid = "login-button" disabled = { (btnClass === "loft__form-button") ? true : false }>Войти</button>
                         <div className = "loft__form-anchor">
                             { this.props.children }
                         </div>
                     </Form>
-                )
+                );
             } }</Formik>
             
         );

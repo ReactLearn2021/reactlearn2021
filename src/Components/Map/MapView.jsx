@@ -7,9 +7,10 @@ import classNames from "classnames";
 import { GET_ADDRESS_LIST_REQUEST, GET_ROUTE_REQUEST } from "../../store/actions";
 import propTypes from "prop-types";
 import { GET_CARD } from "../../store/actions";
+import { Formik, ErrorMessage, Form } from "formik";
 
 const MapView = ({ getAddressList, getRoute, getCard, addressList, full, coordinates }) => {
-    const mapContainer = React.createRef(),
+    const [mapContainer, setMapContainer] = useState(React.createRef()),
           [fromList, setFromList] = useState(addressList.map( (item) => ({ value : item, label : item }) )),
           [toList, setToList] = useState(addressList.map( (item) => ({ value : item, label : item }) )),
           [from, setFrom] = useState(""),
@@ -86,34 +87,21 @@ const MapView = ({ getAddressList, getRoute, getCard, addressList, full, coordin
         }
     }, [coordinates]);
 
-    function changeFrom(event) {
-        if (!event) {
-            setFrom("");
-            return;
-        }
-        const filteredList = addressList.map((item) => ({ value : item, label : item })).filter((item) => item.value !== event.value);
-        setToList(filteredList);
-        setFrom({ value : event.value, label : event.value });
-    }
-
-    function changeTo(event) {
-        if (!event) {
-            setTo("");
-            return;
-        }
-        const filteredList = addressList.map((item) => ({ value : item, label : item })).filter((item) => item.value !== event.value);
+    function changeFrom(value) {
+        if (!value) return;
+        const filteredList = addressList.map((item) => ({ value : item, label : item })).filter((item) => item.value !== value.value);
         setFromList(filteredList);
-        setTo({ value : event.value, label : event.value });
     }
 
-    function makeOrder() {
-        getRoute(from.value, to.value);
+    function changeTo(value) {
+        if (!value) return;
+        const filteredList = addressList.map((item) => ({ value : item, label : item })).filter((item) => item.value !== value.value);
+        setToList(filteredList);
     }
 
-    const btnClass = classNames({
-        "loft__form-button loft__form-button-expanded": !from || !to || (from.value && from.value.length === 0) || (to.value && to.value.length) === 0,
-        "loft__form-button-filled loft__form-button-expanded": (from && from.value.length > 0) && (to.value && to.value.length) > 0
-    });
+    function makeOrder(values) {
+        getRoute(values.from.value, values.to.value);
+    }
 
     return(
         <div className = "map-wrapper">
@@ -123,9 +111,58 @@ const MapView = ({ getAddressList, getRoute, getCard, addressList, full, coordin
                     <h4>Пожалуйста, перейдите в профиль и заполните платежные данные.</h4>
                     <button className="loft__form-button-filled loft__form-button-expanded" type="button" onClick={() => { history.push("/profile"); }}>Перейти в профиль</button>
                 </> : <>
-                    <Select options = { fromList } isClearable = { true } className = "form-select" placeholder = "Откуда" onChange = { changeFrom }/>
-                    <Select options = { toList } isClearable = { true } className = "form-select" placeholder = "Куда"  onChange = { changeTo }/>
-                    <button className = { btnClass } type="button" onClick={ makeOrder }>Вызвать такси</button>
+                    <Formik onSubmit = { (values) => { return makeOrder(values) } } 
+                    initialValues = { { from : "", to : "" } }
+                    validate = { (values) => {
+                        const errors = {};
+                        if (values.from === null) {
+                            errors.from = "Введите исходный адрес";
+                        }
+        
+                        if (values.to === null) {
+                            errors.to = "Введите конечный адрес";
+                        }
+
+                        return errors;
+                    } }>
+                    { ({ handleChange, handleBlur, values }) => {
+                        const btnClass = classNames({
+                            "loft__form-button" : !values.from || values.from.value.length < 1 || !values.to || values.to.value.length < 1,
+                            "loft__form-button-filled" : (values.from && values.from.value.length) > 1 && (values.to && values.to.value.length > 1)
+                        });
+                        return (
+                            <Form>
+                                <Select options = { fromList } 
+                                name = "from"
+                                isClearable = { true } 
+                                className = "form-select" 
+                                placeholder = "Откуда" 
+                                onBlur = { () => handleBlur({ target : {name : "from" } }) }
+                                onChange = { (selectedOption) => {
+                                    const option = { target : { name : "from", value : selectedOption } };
+                                    changeTo(selectedOption);
+                                    handleChange(option)
+                                } } 
+                                value = { values.from }/>
+                                <ErrorMessage name = "from" component = "p" className = "error-message" />
+                                <Select options = { toList } 
+                                name = "to"
+                                isClearable = { true } 
+                                className = "form-select" 
+                                placeholder = "Куда"  
+                                onBlur = { () => handleBlur({ target : {name : "to" } }) }
+                                onChange = { (selectedOption) => {
+                                    const option = { target : { name : "to", value: selectedOption } };
+                                    changeFrom(selectedOption);
+                                    handleChange(option);
+                                } } 
+                                value = { values.to }/>
+                                <ErrorMessage name = "to" component = "p" className = "error-message" />
+                                <button className = { btnClass } type = "submit">Вызвать такси</button>
+                            </Form>
+                        );
+                    }}
+                    </Formik>
                 </>}
             </div>
         </div>

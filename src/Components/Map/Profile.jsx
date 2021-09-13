@@ -9,6 +9,12 @@ import { connect } from "react-redux";
 import { GET_CARD } from "../../store/actions";
 import classNames from "classnames";
 import propTypes from "prop-types";
+import { Formik, ErrorMessage, Form } from "formik";
+
+const templateDateMessage = `Введена 
+некорректная дата`,
+      templateCVCMessage = `Введен некорректный 
+секретный код`;
 
 const Profile = ({getCard, initials, cardnum, cardterm, cvc}) => {
     const [userInitials, setInitialsValue] = useState(""),
@@ -18,25 +24,6 @@ const Profile = ({getCard, initials, cardnum, cardterm, cvc}) => {
         [cardnumInfo, setCardnumInfoValue] = useState(""),
         [view, setView] = useState("FORM"),
         history = useHistory();
-
-    function handleChangeField(field) {
-        switch (field) {
-            case "userInitials":
-                setInitialsValue(window.event.target.value);
-                break;
-            case "userCardnum":
-                setCardnumValue(window.event.target.value);
-                let cardNumFormat = formatCardNum(window.event.target.value);
-                setCardnumInfoValue(cardNumFormat);
-                break;
-            case "userCardterm":
-                setCardtermValue(window.event.target.value);
-                break;
-            case "userCvc":
-                setCvcValue(window.event.target.value);
-                break;
-        }
-    }
 
     function formatCardNum(value) {
         if (!value) return;
@@ -48,17 +35,12 @@ const Profile = ({getCard, initials, cardnum, cardterm, cvc}) => {
         return cardNumFormat.join("");
     }
 
-    function resetError(event) {
-        const input = document.querySelector(`#${event.target.name}`);
-        input.style.setProperty("border-color", "black");
-    }
-
-    function setCard() {
+    function setCard(values) {
         const payload = {
-            cardNumber: userCardnum,
-            expiryDate: userCardterm,
-            cardName: userInitials,
-            cvc: userCvc
+            cardNumber: values.userCardnum,
+            expiryDate: values.userCardterm,
+            cardName: values.userInitials,
+            cvc: values.userCvc
         };
         const success = setCardData(payload);
         if (success) {
@@ -78,13 +60,6 @@ const Profile = ({getCard, initials, cardnum, cardterm, cvc}) => {
         return;
     }, [initials, cardnum, cardterm, cvc]);
 
-    const btnClass = classNames({
-        "loft__form-button loft__form-button-expanded": !userCardterm || userCardterm.length < 4 || !userCardnum || userCardnum.length < 16
-        || !userInitials || userInitials.length === 0 || !userCvc || userCvc.length < 3,
-        "loft__form-button-filled loft__form-button-expanded": (userCardterm && userCardterm.length == 4) || (userCardnum && userCardnum.length == 16) 
-        || (userInitials && userInitials.length > 0) || (userCvc && userCvc.length === 3)
-    });
-
     return (
         <>
             <section id="profile__container">
@@ -93,26 +68,104 @@ const Profile = ({getCard, initials, cardnum, cardterm, cvc}) => {
                         FORM: <><h2><b>Профиль</b></h2>
                             <p className="hint">Введите платежные данные</p>
                             <div>
-                                <form id="profile-form">
-                                    <input type="text" name="userInitials" id="userInitials" data-testid="initials" className="loft__form-input"
-                                        value={ userInitials } onChange={() => { handleChangeField("userInitials") }} onFocus={resetError} />
-                                    <label htmlFor="userInitials">Имя Владельца <sup>&#10057;</sup></label>
-                                    <InputMask mask="9999 9999 9999 9999" type="text" name="userCardnum" id="userCardnum" data-testid="cardnum" className="loft__form-input"
-                                        value={ userCardnum } onChange={() => { handleChangeField("userCardnum") }} onFocus={resetError} />
-                                    <label htmlFor="userCardnum">Номер карты <sup>&#10057;</sup></label>
-                                    <div id="cvc_container">
-                                        <div>
-                                            <InputMask mask="99/99" type="text" name="userCardterm" id="userCardterm" data-testid="cardterm" className="loft__form-input"
-                                                value={ userCardterm } onChange={() => { handleChangeField("userCardterm") }} onFocus={resetError} />
-                                            <label htmlFor="userCardterm" className="short-label">MM/YY <sup>&#10057;</sup></label>
-                                        </div>
-                                        <div>
-                                            <InputMask mask="999" type="text" name="userCvc" id="userCvc" data-testid="cvc" className="loft__form-input"
-                                                value={ userCvc } onChange={() => { handleChangeField("userCvc") }} onFocus={resetError} />
-                                            <label htmlFor="userCvc" className="short-label">CVC <sup>&#10057;</sup></label>
-                                        </div>
-                                    </div>
-                                </form>
+                                <Formik onSubmit = { (values) => { return setCard(values) } }
+                                enableReinitialize
+                                initialValues = { { userInitials, userCardnum, userCardterm, userCvc } }
+                                validate = { (values) => {
+                                    const errors = {};
+
+                                    if (values.userInitials.length < 1) {
+                                        errors.userInitials = "Введены некорректные инициалы";
+                                    }
+
+                                    if (/_/.test(values.userCardnum) === true) {
+                                        errors.userCardnum = "Введен некорректный номер карты";
+                                    }
+
+                                    if (/_/.test(values.userCardterm) === true) {
+                                        errors.userCardterm = templateDateMessage;
+                                    }
+
+                                    if (/_/.test(values.userCvc) === true) {
+                                        errors.userCvc = templateCVCMessage;
+                                    }
+
+                                    return errors;
+                                } }
+                                >{ ({ handleChange, handleBlur, values }) => {
+                                    const btnClass = classNames({
+                                        "loft__form-button": !values.userCardterm || /_/.test(values.userCardterm)
+                                        || !values.userCardnum || /_/.test(values.userCardnum) || !values.userInitials || values.userInitials.length === 0 
+                                        || !values.userCvc || /_/.test(values.userCvc),
+                                        "loft__form-button-filled": (values.userCardterm && !/_/.test(values.userCardterm)) 
+                                        || (values.userCardnum && !/_/.test(values.userCardnum)) 
+                                        || (values.userInitials && values.userInitials.length > 0) || (values.userCvc && !/_/.test(values.userCvc)),
+                                        "loft__form-button-expanded" : true
+                                    });
+
+                                    return(
+                                        <Form id = "profile-form">
+                                            <input type = "text" 
+                                            name = "userInitials" 
+                                            id = "userInitials" 
+                                            data-testid = "initials" 
+                                            className = "loft__form-input"
+                                            autoComplete = "off" 
+                                            onBlur = { handleBlur }
+                                            onChange = { handleChange }
+                                            value = { values.userInitials }/>
+                                            <label htmlFor = "userInitials">Имя Владельца <sup>&#10057;</sup></label>
+                                            <ErrorMessage name = "userInitials" id = "#error__initials" component = "p" className = "error-message" />
+                                            <InputMask mask = "9999 9999 9999 9999" 
+                                            type = "text" 
+                                            name = "userCardnum" 
+                                            id = "userCardnum" 
+                                            data-testid = "cardnum" 
+                                            className = "loft__form-input"
+                                            autoComplete = "off" 
+                                            onBlur = { handleBlur }
+                                            onChange = { handleChange }
+                                            value = { values.userCardnum } />
+                                            <label htmlFor = "userCardnum">Номер карты <sup>&#10057;</sup></label>
+                                            <ErrorMessage name = "userCardnum" id = "error__userCardNum" component = "p" className = "error-message" />
+                                            <div id="cvc_container">
+                                                <div>
+                                                    <InputMask mask = "99/99" 
+                                                    type = "text"
+                                                    name = "userCardterm" 
+                                                    id = "userCardterm" 
+                                                    data-testid = "cardterm" 
+                                                    className = "loft__form-input"
+                                                    autoComplete = "off" 
+                                                    onBlur = { handleBlur }
+                                                    onChange = { handleChange }
+                                                    value = { values.userCardterm } />
+                                                    <label htmlFor = "userCardterm" className = "short-label">MM/YY <sup>&#10057;</sup></label>
+                                                    <ErrorMessage name = "userCardterm" component = "pre" className = "error-message" />
+                                                </div>
+                                                <div>
+                                                    <InputMask mask="999" 
+                                                    type = "text" 
+                                                    name = "userCvc" 
+                                                    id="userCvc" 
+                                                    data-testid = "cvc"
+                                                    className = "loft__form-input"
+                                                    autoComplete = "off" 
+                                                    onBlur = { handleBlur }
+                                                    onChange = { handleChange }
+                                                    value = { values.userCvc }/>
+                                                    <label htmlFor = "userCvc" className = "short-label">CVC <sup>&#10057;</sup></label>
+                                                    <ErrorMessage name = "userCvc" component = "pre" className = "error-message" />
+                                                </div>
+                                            </div>                         
+                                            <button className = {btnClass} 
+                                            type = "submit" 
+                                            data-testid = "reg-button" 
+                                            disabled = {(btnClass === "loft__form-button loft__form-button-expanded") ? true : false}>Сохранить</button>
+                                        </Form>
+                                    );
+                                }}
+                                </Formik>
                                 <div id="card_container">
                                     <div>
                                         <img src={logo} alt="Logotip was not loaded" data-testid="logo" />
@@ -126,9 +179,7 @@ const Profile = ({getCard, initials, cardnum, cardterm, cvc}) => {
                                         <MCIcon />
                                     </div>
                                 </div>
-                            </div>
-                            <button className={btnClass} type="button" data-testid="reg-button" disabled={(btnClass === "loft__form-button loft__form-button-expanded") ? true : false}
-                                onClick={setCard}>Сохранить</button></>,
+                            </div></>,
                         SAVED: <><h2><b>Профиль</b></h2>
                             <p className="hint">Платёжные данные обновлены. Теперь вы можете заказывать такси.</p>
                             <button className="loft__form-button-filled loft__form-button-expanded" type="button" onClick={() => { history.push("/map"); }}>Перейти на карту</button></>

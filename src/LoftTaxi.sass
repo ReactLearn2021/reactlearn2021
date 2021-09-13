@@ -89,6 +89,17 @@ input:focus
     +formblock
     padding: 46px 0
 
+#profile__container
+    .loft__form-button-expanded, .loft__form-button
+        margin-left: 9.5%
+        margin-top: 40px
+        width: 80%
+
+    .error-message
+        font-size: 12px
+        position: absolute
+        left: 20px
+
 .authorize__block-form
     padding: 0 102px 0 98px
     display: flex
@@ -97,6 +108,9 @@ input:focus
 
     h2
         margin-bottom: 50px
+
+    .error-message
+        margin-left: 20px
 
 sup
     color: firebrick
@@ -123,6 +137,10 @@ label
 
     &:focus + .short-label, &:not([value=""]) + .short-label
         transform: translateY(-31px) translateX(-15px) scale(0.8) !important
+        transition: transform 200ms ease-out
+
+    &:focus + [for^=user], &:not([value=""]) + [for^=user]
+        transform: translateY(-31px) translateX(-67px) scale(0.8)
         transition: transform 200ms ease-out
 
 
@@ -161,7 +179,7 @@ label
     margin-bottom: 45px
 
     &+div
-        +flexrow
+        position: relative
 
     &+.loft__form-button-expanded
         margin-left: 19%
@@ -214,16 +232,37 @@ label
     div
         display: grid
 
+    .error-message
+        top: 260px
+
+        &:nth-of-type(2)
+            left: 182px
+
 #profile-form
     display: flex
     flex-direction: column
     justify-content: flex-start
+
+    input
+        margin-bottom: 10px
+
+    label
+        bottom: 40px
+
+    #error__userCardNum
+        top: 165px
+
+    #error_initials
+        top: 72px
 
 #card_container
     padding: 20px 30px
     +formblock
     margin-left: 30px
     margin-top: 15px
+    position: absolute
+    top: 0
+    right: 0
 
     div
         +flexrow
@@ -266,3 +305,7 @@ label
 
 .form-select
     margin-bottom: 25px
+
+.error-message
+    color: firebrick
+    margin-top: -10px
