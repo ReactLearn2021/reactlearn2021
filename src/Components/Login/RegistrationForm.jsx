@@ -3,7 +3,7 @@ import classNames from "classnames";
 import propTypes from "prop-types";
 import { connect } from "react-redux";
 import { REGISTER } from "../../store/actions";
-import { Formik, ErrorMessage, Form } from "formik";
+import { Formik, ErrorMessage, Form, Field } from "formik";
 
 export default class RegistrationForm extends React.Component {
     constructor(props) {
@@ -43,7 +43,6 @@ export default class RegistrationForm extends React.Component {
 
     render() {
         return(
-            <React.Fragment>
                 <Formik onSubmit = { (values) => { return this.regHandler(values) } } 
                 initialValues = { { email : "", initials : "", setPassword : "" } }
                 validate = { (values) => {
@@ -70,7 +69,7 @@ export default class RegistrationForm extends React.Component {
                     return(
                     <Form className = "authorize__block-form">
                         <h2>Регистрация</h2>
-                        <input type = "text" 
+                        <Field type = "text" 
                         name = "email" 
                         id = "email" 
                         data-testid = "email" 
@@ -81,7 +80,7 @@ export default class RegistrationForm extends React.Component {
                         value = { values.email } />
                         <label htmlFor = "email">Адрес электронной почты <sup>&#10057;</sup></label>
                         <ErrorMessage name = "email" component = "p" className = "error-message" />
-                        <input type = "text" 
+                        <Field type = "text" 
                         name = "initials" 
                         id = "initials" 
                         data-testid = "initials" 
@@ -92,7 +91,7 @@ export default class RegistrationForm extends React.Component {
                         value = { values.initials } />
                         <label htmlFor = "initials">Как вас зовут? <sup>&#10057;</sup></label>
                         <ErrorMessage name = "initials" component = "p" className = "error-message" />
-                        <input type = "text" 
+                        <Field type = "text" 
                         name = "setPassword" 
                         id = "setPassword" 
                         data-testid = "setPassword" 
@@ -109,9 +108,9 @@ export default class RegistrationForm extends React.Component {
                         </div>
                     </Form>
                 );
-            }}  </Formik>               
-            </React.Fragment>
-    );
+            }} 
+            </Formik>               
+        )
     }
 }
 

@@ -3,7 +3,7 @@ import classNames from "classnames";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { AUTHENTICATE } from "../../store/actions";
-import { Formik, ErrorMessage, Form } from "formik";
+import { Formik, ErrorMessage, Form, Field } from "formik";
 
 export default class LoginForm extends React.Component {
     constructor(props) {
@@ -65,7 +65,7 @@ export default class LoginForm extends React.Component {
                 return(
                     <Form className = "authorize__block-form">
                         <h2>Войти</h2>
-                        <input type = "email" 
+                        <Field type = "email" 
                         name = "login" 
                         id = "login" 
                         className = "loft__form-input" 
@@ -76,7 +76,7 @@ export default class LoginForm extends React.Component {
                         value = { values.login }/>
                         <label htmlFor = "login">Имя пользователя <sup>&#10057;</sup></label>
                         <ErrorMessage name = "login" component = "p" className = "error-message" />
-                        <input type = "password" 
+                        <Field type = "password" 
                         name = "password"
                         id = "password" 
                         className = "loft__form-input"

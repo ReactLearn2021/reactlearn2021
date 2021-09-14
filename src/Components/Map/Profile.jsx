@@ -9,7 +9,7 @@ import { connect } from "react-redux";
 import { GET_CARD } from "../../store/actions";
 import classNames from "classnames";
 import propTypes from "prop-types";
-import { Formik, ErrorMessage, Form } from "formik";
+import { Formik, ErrorMessage, Form, Field } from "formik";
 
 const templateDateMessage = `Введена 
 некорректная дата`,
@@ -105,7 +105,7 @@ const Profile = ({getCard, initials, cardnum, cardterm, cvc}) => {
 
                                     return(
                                         <Form id = "profile-form">
-                                            <input type = "text" 
+                                            <Field type = "text" 
                                             name = "userInitials" 
                                             id = "userInitials" 
                                             data-testid = "initials" 
