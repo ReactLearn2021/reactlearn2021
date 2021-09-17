@@ -5,6 +5,7 @@
 import React from "react";
 import { render, fireEvent } from "@testing-library/react";
 import LoginPage from "../../src/Components/Login/LoginPage";
+import { Login } from "../../src/Components/Routes/Login";
 import { Provider } from "react-redux";
 import { BrowserRouter } from 'react-router-dom';
 
@@ -14,13 +15,16 @@ test("it renders correctly", () => {
 });
 
 test("it correctly renders react link", () => {
-    const { container, getByTestId } = render(<BrowserRouter><Provider store={globalThis.mockStore}><LoginPage /></Provider></BrowserRouter>),
+    const { container, getByTestId } = render(<BrowserRouter><Provider store={globalThis.mockStore}><Login /></Provider></BrowserRouter>),
         registerLink = getByTestId("register-link");
     fireEvent.click(registerLink);
     expect(container.innerHTML).toMatch("Войти");
 });
 
 test("current view is login page", () => {
-    const { container } = render(<BrowserRouter><Provider store={globalThis.mockStore}><LoginPage /></Provider></BrowserRouter>);
+    const { container } = render(<BrowserRouter><Provider store={globalThis.mockStore}><Login /></Provider></BrowserRouter>);
     expect(container.innerHTML).toMatch("Войти");
 });
+
+// можно убрать LoftTaxi.jsx
+// map можно сделать рефом без элемента

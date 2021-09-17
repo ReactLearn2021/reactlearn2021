@@ -1,4 +1,4 @@
-import React, { ReactElement, ReactNode } from "react";
+import React from "react";
 import classNames from "classnames";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -22,7 +22,6 @@ export default class LoginForm extends React.Component {
             login : "",
             password : ""
         },
-        fullLoginForm : false,
         emailCheck : /^([\w\d-\.\?]+)@[A-Z]{4,6}\.[A-Z]{2,4}$/i
     };
 
@@ -31,11 +30,7 @@ export default class LoginForm extends React.Component {
     // }
 
     loginHandler(values) {
-        console.info(values)
         window.event.preventDefault();
-        if (!this.state.emailCheck.test(values.login)) return false;
-
-        if (values.password.length < 8) return false;
         
         this.props.authenticate(values.login, values.password);
         // window.localStorage.setItem("view", "map");
@@ -57,10 +52,10 @@ export default class LoginForm extends React.Component {
 
                 return errors;
             } }
-            >{ ({ handleChange, handleBlur, values }) => {
+            >{ ({ handleChange, handleBlur, values, errors }) => {
                 const btnClass = classNames({
-                    "loft__form-button" : !this.state.emailCheck.test(values.login) || (values.password.length < 8),
-                    "loft__form-button-filled" : this.state.emailCheck.test(values.login) && values.password.length >= 8
+                    "loft__form-button" : Object.keys(errors).length > 0 || Object.values(values).some( (item) => item === ""),
+                    "loft__form-button-filled" : !errors || Object.keys(errors).length === 0
                 });
                 return(
                     <Form className = "authorize__block-form">

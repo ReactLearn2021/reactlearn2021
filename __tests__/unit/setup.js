@@ -6,7 +6,8 @@ import configureStore from 'redux-mock-store'
 const initialState = {
     auth : { loggedIn : true },
     profile : { initials : "Web Developer", cardnum : "0000 0000 0000 0000", cardterm : "00/00", cvc : "000", full : true },
-    addresses : { addressList : [], coordinates : [] }
+    addresses : { addressList : [], coordinates : [] },
+    errors : { error : "" }
 },
     mockStore = configureStore();
 

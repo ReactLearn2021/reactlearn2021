@@ -10,11 +10,9 @@ import { GET_CARD } from "../../store/actions";
 import { Formik, ErrorMessage, Form } from "formik";
 
 const MapView = ({ getAddressList, getRoute, getCard, addressList, full, coordinates }) => {
-    const [mapContainer, setMapContainer] = useState(React.createRef()),
-          [fromList, setFromList] = useState(addressList.map( (item) => ({ value : item, label : item }) )),
-          [toList, setToList] = useState(addressList.map( (item) => ({ value : item, label : item }) )),
-          [from, setFrom] = useState(""),
-          [to, setTo] = useState(""),
+    const mapContainer = React.createRef(),
+          [fromList, setFromList] = useState(addressList),
+          [toList, setToList] = useState(addressList),
           [map, setMap] = useState(null),
           history = useHistory();
     // let map = null;
@@ -27,6 +25,7 @@ const MapView = ({ getAddressList, getRoute, getCard, addressList, full, coordin
             center : [30.3056504, 59.9429126],
             zoom : 10
         }));
+        getCard();
         return function unmount() {
             if (map) {
                 map.remove();
@@ -38,14 +37,10 @@ const MapView = ({ getAddressList, getRoute, getCard, addressList, full, coordin
         if (addressList.length === 0) {
             getAddressList();
         } else {
-            setFromList(addressList.map( (item) => ({ value : item, label : item }) ));
-            setToList(addressList.map( (item) => ({ value : item, label : item }) ));
+            setFromList(addressList);
+            setToList(addressList);
         }
     }, [addressList]);
-
-    useEffect( () => {
-        getCard();
-    }, []);
 
     useEffect( () => {
         if (coordinates) {
@@ -89,13 +84,13 @@ const MapView = ({ getAddressList, getRoute, getCard, addressList, full, coordin
 
     function changeFrom(value) {
         if (!value) return;
-        const filteredList = addressList.map((item) => ({ value : item, label : item })).filter((item) => item.value !== value.value);
+        const filteredList = addressList.filter((item) => item.value !== value.value);
         setFromList(filteredList);
     }
 
     function changeTo(value) {
         if (!value) return;
-        const filteredList = addressList.map((item) => ({ value : item, label : item })).filter((item) => item.value !== value.value);
+        const filteredList = addressList.filter((item) => item.value !== value.value);
         setToList(filteredList);
     }
 
@@ -125,10 +120,10 @@ const MapView = ({ getAddressList, getRoute, getCard, addressList, full, coordin
 
                         return errors;
                     } }>
-                    { ({ handleChange, handleBlur, values }) => {
+                    { ({ handleChange, handleBlur, values, errors }) => {
                         const btnClass = classNames({
-                            "loft__form-button" : !values.from || values.from.value.length < 1 || !values.to || values.to.value.length < 1,
-                            "loft__form-button-filled" : (values.from && values.from.value.length) > 1 && (values.to && values.to.value.length > 1)
+                            "loft__form-button" : Object.keys(errors).length > 0 || Object.values(values).some( (item) => item === ""),
+                            "loft__form-button-filled" : !errors || Object.keys(errors).length === 0
                         });
                         return (
                             <Form>
@@ -172,12 +167,13 @@ const MapView = ({ getAddressList, getRoute, getCard, addressList, full, coordin
 MapView.propTypes = {
     getAddressList : propTypes.func,
     getRoute : propTypes.func,
-    addressList : propTypes.arrayOf(propTypes.string),
+    addressList : propTypes.arrayOf(propTypes.objectOf(propTypes.string)),
     full : propTypes.bool,
     coordinates : propTypes.arrayOf(propTypes.arrayOf(propTypes.number))
 };
 
 export default connect(
-    (state) => ({ addressList : state.addresses.addressList, full : state.profile.full, coordinates : state.addresses.coordinates }),
+    (state) => ({ addressList : state.addresses.addressList.map( (item) => ({ value : item, label : item }) ), 
+    full : state.profile.full, coordinates : state.addresses.coordinates }),
     { getAddressList : GET_ADDRESS_LIST_REQUEST, getRoute : GET_ROUTE_REQUEST, getCard : GET_CARD }
 )(MapView);

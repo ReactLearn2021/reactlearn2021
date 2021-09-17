@@ -1,4 +1,4 @@
-import React, { ReactElement, ReactNode } from "react";
+import React from "react";
 import classNames from "classnames";
 import propTypes from "prop-types";
 import { connect } from "react-redux";
@@ -23,7 +23,6 @@ export default class RegistrationForm extends React.Component {
             initials : "",
             setPassword : ""
         },
-        fullRegForm : false,
         emailCheck : /^([\w\d-\.\?]+)@[A-Z]{4,6}\.[A-Z]{2,4}$/i
     };
 
@@ -32,12 +31,6 @@ export default class RegistrationForm extends React.Component {
     }
 
     regHandler() {
-        if (this.state.regFields.setPassword.length <= 8) return false;
-
-        if (this.state.regFields.initials.length <= 1) return false;
-
-        if (!this.state.emailCheck.test(this.state.regFields.email)) return false;
-        
         this.props.register(this.state.regFields.email, this.state.regFields.initials, this.state.regFields.setPassword);
     }
 
@@ -61,10 +54,10 @@ export default class RegistrationForm extends React.Component {
 
                     return errors;
                 } }
-                >{ ({ handleChange, handleBlur, values }) => {
+                >{ ({ handleChange, handleBlur, values, errors }) => {
                     const btnClass = classNames({
-                        "loft__form-button" : !this.state.emailCheck.test(values.email) || values.setPassword.length <= 8 || values.initials.length < 1,
-                        "loft__form-button-filled" : this.state.emailCheck.test(values.email) && values.setPassword.length >= 8 && values.initials.length > 0
+                        "loft__form-button" : Object.keys(errors).length > 0 || Object.values(values).some( (item) => item === ""),
+                        "loft__form-button-filled" : !errors || Object.keys(errors).length === 0
                     });
                     return(
                     <Form className = "authorize__block-form">

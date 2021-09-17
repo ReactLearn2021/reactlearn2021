@@ -10,4 +10,5 @@ export const LOG_IN = createAction("LOG_IN"),
      GET_ADDRESS_LIST = createAction("GET_ADDRESS_LIST", (addressList) => ({ addressList }) ),
      GET_ADDRESS_LIST_REQUEST = createAction("GET_ADDRESS_LIST_REQUEST"),
      GET_ROUTE = createAction("GET_ROUTE", (route) => ( { route } )),
-     GET_ROUTE_REQUEST = createAction("GET_ROUTE_REQUEST", (from, to) => ({ from, to }) );
+     GET_ROUTE_REQUEST = createAction("GET_ROUTE_REQUEST", (from, to) => ({ from, to }) ),
+     ERRORS = createAction("ERRORS", (error) => ( { error } ));

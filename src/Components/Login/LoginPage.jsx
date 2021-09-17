@@ -1,7 +1,5 @@
-import React, { ReactElement } from "react";
+import React from "react";
 import logo from "../../assets/logo-auth-left.svg";
-import { RegisterFormWithAuth } from "./RegistrationForm";
-import { LoginFormWithAuth } from "./LoginForm";
 import { connect } from "react-redux";
 import PrivateRoutes from "../PrivateRoutes/PrivateRoutes";
 
@@ -26,12 +24,6 @@ export default class LoginPage extends React.Component {
             this.setState({ currentView : Views.REG });
         } else {
             this.setState({ currentView : Views.LOGIN });
-        }
-    }
-
-    componentDidUpdate() {
-        if (this.props.loggedIn) {
-            this.props.history.location("/profile");
         }
     }
 

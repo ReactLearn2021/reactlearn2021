@@ -16,7 +16,7 @@ const templateDateMessage = `Введена
       templateCVCMessage = `Введен некорректный 
 секретный код`;
 
-const Profile = ({getCard, initials, cardnum, cardterm, cvc}) => {
+const Profile = ({ getCard, initials, cardnum, cardterm, cvc }) => {
     const [userInitials, setInitialsValue] = useState(""),
         [userCardnum, setCardnumValue] = useState(""),
         [userCardterm, setCardtermValue] = useState(""),
@@ -92,15 +92,10 @@ const Profile = ({getCard, initials, cardnum, cardterm, cvc}) => {
 
                                     return errors;
                                 } }
-                                >{ ({ handleChange, handleBlur, values }) => {
+                                >{ ({ handleChange, handleBlur, values, errors }) => {
                                     const btnClass = classNames({
-                                        "loft__form-button": !values.userCardterm || /_/.test(values.userCardterm)
-                                        || !values.userCardnum || /_/.test(values.userCardnum) || !values.userInitials || values.userInitials.length === 0 
-                                        || !values.userCvc || /_/.test(values.userCvc),
-                                        "loft__form-button-filled": (values.userCardterm && !/_/.test(values.userCardterm)) 
-                                        || (values.userCardnum && !/_/.test(values.userCardnum)) 
-                                        || (values.userInitials && values.userInitials.length > 0) || (values.userCvc && !/_/.test(values.userCvc)),
-                                        "loft__form-button-expanded" : true
+                                        "loft__form-button": Object.keys(errors).length > 0 || Object.values(values).some( (item) => item === ""),
+                                        "loft__form-button-filled": !errors || Object.keys(errors).length === 0
                                     });
 
                                     return(

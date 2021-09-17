@@ -1,14 +1,18 @@
-import { takeEvery, call, put, fork } from "redux-saga/effects";
+import { takeEvery, call, put } from "redux-saga/effects";
 import { serverLogin } from "../api";
-import { LOG_IN, AUTHENTICATE } from "../store/actions";
+import { LOG_IN, ERRORS } from "../store/actions";
 
 export function* authenticateSaga(action) {
-    const { email, password } = action.payload,
-          response = yield call(serverLogin, email, password);
-          const { success, token } = response.data;
-    if (success) {
-        window.localStorage.setItem("TOKEN", token);
-        yield put(LOG_IN());
+    try {
+        const { email, password } = action.payload,
+              response = yield call(serverLogin, email, password);
+        const { success, token } = response.data;
+        if (success) {
+            window.localStorage.setItem("TOKEN", token);
+            yield put(LOG_IN());
+        }
+    } catch(e) {
+        yield put(ERRORS("Ошибка при аутентификации"));
     }
 }
 

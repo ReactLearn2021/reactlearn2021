@@ -25,6 +25,11 @@ yarn-error.log*
 #info
 inforepo.txt
 info.txt
+/5646
+AuthContext.jsx
 
 #screenshots
 shot*.png
+
+#deploy
+travis.yml

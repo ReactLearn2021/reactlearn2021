@@ -1,12 +1,16 @@
 import './LoftTaxi.sass';
 import { LoginPageWithAuth } from "./Components/Login/LoginPage";
-import React from "react";
+import React, { useEffect } from "react";
 import { MapWithAuth } from "./Components/Map/Map";
 import propTypes from "prop-types";
 import { connect } from "react-redux";
 
 function App(props) {
-  // if (window.localStorage.getItem("view") != "map") {
+
+    useEffect( () => {
+        console.warn(props.error);
+    }, [props.error]);
+
     if (props.loggedIn === false) {
         return (
           <>
@@ -29,5 +33,5 @@ App.propTypes = {
 };
 
 export default connect(
-    state => ({ loggedIn: state.auth.loggedIn })
+    state => ({ loggedIn: state.auth.loggedIn, error : state.errors.error })
 )(App);

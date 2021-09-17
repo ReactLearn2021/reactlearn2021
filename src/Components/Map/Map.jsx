@@ -6,13 +6,12 @@ import { Link, useHistory } from "react-router-dom";
 import propTypes from "prop-types";
 import PrivateRoutes from "../PrivateRoutes/PrivateRoutes";
 
-export default function Map(props) {
-    const [view, setView] = useState("MAP"),
-          history = useHistory();
+export default function Map({ logOut }) {
+        const history = useHistory();
 
     function linkHandler() {
         window.localStorage.removeItem("TOKEN"); // спросить как запустить редирект 
-        props.logOut();
+        logOut();
         history.push("/login");
     }
 

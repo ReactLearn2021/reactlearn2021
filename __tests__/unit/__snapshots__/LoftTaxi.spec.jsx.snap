@@ -286,7 +286,7 @@ exports[`it renders correctly 1`] = `
             />
           </div>
           <button
-            className="loft__form-button"
+            className="loft__form-button loft__form-button-filled"
             type="submit"
           >
             Вызвать такси
